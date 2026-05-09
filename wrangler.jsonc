@@ -1,0 +1,41 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "oasis-bi-pro",
+  "compatibility_date": "2024-12-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "pages_build_output_dir": "./dist",
+
+  // D1 SQLite database — replaces Supabase Postgres in the sovereign stack
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "oasis-bi-pro-production",
+      "database_id": "1d8a6860-7eff-4959-bcf2-89cccd34e26c"
+    }
+  ],
+
+  // KV — sessions, cache, idempotency
+  "kv_namespaces": [
+    {
+      "binding": "OASIS_KV",
+      "id": "367ff07f353545fd98d6d564f88d84ff"
+    }
+  ],
+
+  // R2 — exports, dashboard snapshots, user uploads
+  "r2_buckets": [
+    {
+      "binding": "OASIS_R2",
+      "bucket_name": "oasis-bi-pro-bucket"
+    }
+  ],
+
+  "vars": {
+    "APP_NAME": "OASIS BI Pro",
+    "APP_VERSION": "3.0.0-cloudflare",
+    "DUITKU_ENV": "production",
+    "DUITKU_BASE_URL": "https://api.duitku.com/webapi/v1/payment",
+    "RETURN_URL": "https://oasis-bi-pro.pages.dev/payment/success",
+    "CALLBACK_URL": "https://oasis-bi-pro.pages.dev/api/duitku/callback"
+  }
+}
