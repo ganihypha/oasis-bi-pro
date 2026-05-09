@@ -20,18 +20,19 @@ export function getDuitkuConfig(env: any): DuitkuConfig {
     merchantCode: env.DUITKU_MERCHANT_CODE || 'D20919',
     // SECRET — only present at runtime via wrangler secret. Never hard-code in production.
     apiKey: env.DUITKU_API_KEY || '17d9d5e20fbf4763a44c41a1e95cb7cb',
-    baseUrl: env.DUITKU_BASE_URL || 'https://api.duitku.com/webapi/v1/payment',
+    baseUrl: env.DUITKU_BASE_URL || 'https://api-prod.duitku.com/api/merchant',
     returnUrl: env.RETURN_URL || 'https://oasis-bi-pro.pages.dev/payment/success',
     callbackUrl: env.CALLBACK_URL || 'https://oasis-bi-pro.pages.dev/api/duitku/callback',
     environment: env.DUITKU_ENV || 'production'
   }
 }
 
-/* ---------- Subscription plans (locked from MBA doc) ---------- */
+/* ---------- Subscription plans (locked from MBA doc + Bridge Monetization Layer 3) ---------- */
 export const SUBSCRIPTION_PLANS = {
   starter: {
     id: 'starter',
     name: 'Operator',
+    tagline: 'Solo founder & freelancer',
     price: 99000,
     currency: 'IDR',
     duration: 'monthly',
@@ -41,12 +42,14 @@ export const SUBSCRIPTION_PLANS = {
       '10 data source connections',
       'Basic analytics & reporting',
       'Email support (24 jam)',
-      '1 user account'
+      '1 user account',
+      'Trial 14 hari gratis'
     ]
   },
   professional: {
     id: 'professional',
     name: 'Sovereign',
+    tagline: 'UMKM 5–20 orang',
     price: 299000,
     currency: 'IDR',
     duration: 'monthly',
@@ -59,12 +62,14 @@ export const SUBSCRIPTION_PLANS = {
       'Priority support (12 jam)',
       'Custom branding',
       '5 user accounts',
-      'API access'
+      'API access',
+      'Trial 14 hari gratis'
     ]
   },
   enterprise: {
     id: 'enterprise',
     name: 'Direktur',
+    tagline: 'Tim 20+ · White-label',
     price: 999000,
     currency: 'IDR',
     duration: 'monthly',
@@ -78,6 +83,27 @@ export const SUBSCRIPTION_PLANS = {
       'Unlimited users',
       'Full API access',
       'SLA guarantee 99.9%'
+    ]
+  },
+  lifetime: {
+    id: 'lifetime',
+    name: 'Lifetime Deal',
+    tagline: 'Early adopter · Limited 50 seats',
+    price: 1499000,
+    currency: 'IDR',
+    duration: 'lifetime',
+    sku: 'OBP-LTD-ONE',
+    limited: true,
+    features: [
+      'Akses Sovereign tier seumur hidup',
+      'Unlimited data sources',
+      'Advanced AI analytics',
+      'Priority support seumur hidup',
+      'Custom branding',
+      '5 user accounts',
+      'API access',
+      'Grandfathered untuk semua future features',
+      'No recurring billing — bayar sekali'
     ]
   }
 } as const
@@ -172,6 +198,11 @@ export async function createDuitkuPayment(
   const timestamp = Date.now()
   const signature = await generatePopSignature(cfg, timestamp)
 
+  // Split full name into first + last for Duitku customerDetail.
+  const nameParts = (data.customerName || 'Customer').trim().split(/\s+/)
+  const firstName = nameParts[0] || 'Customer'
+  const lastName = nameParts.slice(1).join(' ') || firstName
+
   const body = {
     paymentAmount: data.paymentAmount,
     merchantOrderId: data.merchantOrderId,
@@ -179,6 +210,19 @@ export async function createDuitkuPayment(
     email: data.email,
     phoneNumber: data.phoneNumber,
     customerVaName: data.customerName,
+    customerDetail: {
+      firstName,
+      lastName,
+      email: data.email,
+      phoneNumber: data.phoneNumber
+    },
+    itemDetails: [
+      {
+        name: data.productDetails,
+        price: data.paymentAmount,
+        quantity: 1
+      }
+    ],
     callbackUrl: cfg.callbackUrl,
     returnUrl: cfg.returnUrl,
     expiryPeriod: 60

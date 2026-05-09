@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2a1a4a"/>
+      <stop offset="0.6" stop-color="#3d2466"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e8d9a6"/>
+      <stop offset="1" stop-color="#c9a961"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.85" cy="0.2" r="0.5">
+      <stop offset="0" stop-color="#c026d3" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#c026d3" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <!-- Brand mark -->
+  <g transform="translate(80,90)">
+    <circle cx="32" cy="32" r="28" fill="none" stroke="url(#gold)" stroke-width="3"/>
+    <path d="M16 40 L28 24 L40 36 L52 16" stroke="url(#gold)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="80" y="42" font-family="'Cormorant Garamond', serif" font-size="36" font-weight="700" fill="#fff">OASIS BI Pro</text>
+    <text x="80" y="64" font-family="Inter, sans-serif" font-size="14" font-weight="500" fill="#e8d9a6" letter-spacing="3">SOVEREIGN BUSINESS INTELLIGENCE</text>
+  </g>
+  <!-- Headline -->
+  <text x="80" y="280" font-family="'Cormorant Garamond', serif" font-size="76" font-weight="700" fill="#fff">Business Intelligence</text>
+  <text x="80" y="360" font-family="'Cormorant Garamond', serif" font-size="76" font-weight="700" fill="url(#gold)">untuk Sovereign Operator.</text>
+  <!-- Subhead -->
+  <text x="80" y="430" font-family="Inter, sans-serif" font-size="28" font-weight="400" fill="#d4c5f9">Edge-first · UU PDP 27/2022 · Duitku Verified · Cloudflare 100%</text>
+  <!-- Pills -->
+  <g transform="translate(80,490)">
+    <rect width="180" height="44" rx="22" fill="#fff" fill-opacity="0.12" stroke="#e8d9a6" stroke-width="1"/>
+    <text x="90" y="29" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#e8d9a6" text-anchor="middle">Trial 14 Hari Gratis</text>
+    <rect x="200" width="200" height="44" rx="22" fill="#fff" fill-opacity="0.12" stroke="#a78bfa" stroke-width="1"/>
+    <text x="300" y="29" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#a78bfa" text-anchor="middle">Mulai dari Rp 99rb/bln</text>
+    <rect x="420" width="220" height="44" rx="22" fill="#c026d3" fill-opacity="0.25" stroke="#c026d3" stroke-width="1"/>
+    <text x="530" y="29" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#fff" text-anchor="middle">Lifetime Deal · 50 Slot</text>
+  </g>
+  <!-- Footer -->
+  <text x="80" y="595" font-family="Inter, sans-serif" font-size="16" font-weight="500" fill="#e8d9a6">A SparkMind sovereign product · oasis-bi-pro.pages.dev</text>
+  <!-- Right ornament -->
+  <g transform="translate(960,140)" opacity="0.85">
+    <circle cx="80" cy="80" r="80" fill="none" stroke="url(#gold)" stroke-width="2"/>
+    <circle cx="80" cy="80" r="60" fill="none" stroke="#a78bfa" stroke-width="1.5"/>
+    <circle cx="80" cy="80" r="40" fill="none" stroke="#c026d3" stroke-width="1.5"/>
+    <circle cx="80" cy="80" r="20" fill="url(#gold)"/>
+    <text x="80" y="86" font-family="'Cormorant Garamond', serif" font-size="24" font-weight="700" fill="#2a1a4a" text-anchor="middle">∞</text>
+  </g>
+</svg>

@@ -34,7 +34,7 @@
     "APP_NAME": "OASIS BI Pro",
     "APP_VERSION": "3.0.0-cloudflare",
     "DUITKU_ENV": "production",
-    "DUITKU_BASE_URL": "https://api.duitku.com/webapi/v1/payment",
+    "DUITKU_BASE_URL": "https://api-prod.duitku.com/api/merchant",
     "RETURN_URL": "https://oasis-bi-pro.pages.dev/payment/success",
     "CALLBACK_URL": "https://oasis-bi-pro.pages.dev/api/duitku/callback"
   }

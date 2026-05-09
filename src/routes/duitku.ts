@@ -169,6 +169,74 @@ duitku.post('/callback', async (c) => {
   return c.text('OK', 200)
 })
 
+/* ---------- Smoke test (Rp 10.000 live transaction — GAP-3 closure) ----------
+ * MCD-A §1 + obp.live.veriffied: wajib 1 transaksi real Rp 10.000 dengan kartu
+ * sendiri untuk konfirmasi callback /api/duitku/callback jalan end-to-end
+ * (signature MD5 verify + DB update + subscription activation).
+ *
+ * Usage:
+ *   POST /api/duitku/smoketest   { email, phoneNumber, customerName }
+ *   → returns paymentUrl untuk Rp 10.000, recorded di payments dengan plan_id='smoketest'
+ */
+duitku.post('/smoketest', async (c) => {
+  const body = await c.req.json().catch(() => ({}))
+  const email = body.email || 'qa@oasis-bi-pro.web.id'
+  const phoneNumber = body.phoneNumber || '+628111111111'
+  const customerName = body.customerName || 'OBP QA Tester'
+
+  const cfg = getDuitkuConfig(c.env)
+  const merchantOrderId = `OASIS-SMOKETEST-${Date.now()}-${Math.random().toString(36).substring(2,8).toUpperCase()}`
+  const TEST_AMOUNT = 10_000
+
+  await c.env.DB.prepare(
+    `INSERT INTO payments
+       (id, merchant_order_id, user_id, team_id, plan_id, amount, currency, status,
+        customer_email, customer_phone, customer_name)
+     VALUES (?, ?, NULL, NULL, 'smoketest', ?, 'IDR', 'pending', ?, ?, ?)`
+  ).bind(uuid(), merchantOrderId, TEST_AMOUNT, email, phoneNumber, customerName).run()
+
+  const result = await createDuitkuPayment(cfg, {
+    merchantOrderId,
+    paymentAmount: TEST_AMOUNT,
+    productDetails: 'OASIS BI Pro — Live Smoke Test (Rp 10.000)',
+    email, phoneNumber, customerName,
+    planId: 'starter' as PlanId
+  })
+
+  if (!result.success) {
+    return c.json({ success: false, error: result.error, raw: result.raw, merchantOrderId }, 502)
+  }
+
+  await c.env.DB.prepare(
+    `UPDATE payments SET duitku_reference = ?, payment_url = ?, updated_at = datetime('now')
+      WHERE merchant_order_id = ?`
+  ).bind(result.reference, result.paymentUrl, merchantOrderId).run()
+
+  return c.json({
+    success: true,
+    note: 'Live smoke test invoice created — Rp 10.000. Bayar pakai kartu/VA sendiri untuk verify callback end-to-end.',
+    data: {
+      reference: result.reference,
+      paymentUrl: result.paymentUrl,
+      merchantOrderId,
+      amount: TEST_AMOUNT
+    }
+  })
+})
+
+/* ---------- Recent payments (admin/QA visibility) ---------- */
+duitku.get('/recent', async (c) => {
+  const limit = Math.min(Number(c.req.query('limit') || 20), 100)
+  const { results } = await c.env.DB.prepare(
+    `SELECT merchant_order_id, plan_id, amount, currency, status,
+            duitku_reference, customer_email, customer_name, created_at, updated_at
+       FROM payments
+      ORDER BY created_at DESC
+      LIMIT ?`
+  ).bind(limit).all<any>()
+  return c.json({ success: true, payments: results || [] })
+})
+
 /* ---------- Status check ---------- */
 duitku.get('/check-status', async (c) => {
   const merchantOrderId = c.req.query('merchantOrderId')
