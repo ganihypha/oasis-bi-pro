@@ -1,15 +1,31 @@
-# OASIS BI Pro — Sovereign BI SaaS on Cloudflare Full Stack
+# OASIS BI Pro — Sovereign BI SaaS + SparkMind Merchant-of-Record
 
 [![Status](https://img.shields.io/badge/Status-Live-success)](https://oasis-bi-pro.pages.dev)
 [![Stack](https://img.shields.io/badge/Stack-Cloudflare%20Pages%20%2B%20Workers%20%2B%20D1%20%2B%20KV%20%2B%20R2-orange)](https://developers.cloudflare.com)
 [![Framework](https://img.shields.io/badge/Framework-Hono-blue)](https://hono.dev)
 [![Payments](https://img.shields.io/badge/Duitku-LIVE%20%C2%B7%20D20919-purple)](https://docs.duitku.com)
 [![Version](https://img.shields.io/badge/Version-3.1.0-gold)](#changelog)
+[![Doctrine](https://img.shields.io/badge/Doctrine-v7.0%20OBP--HYBRID-blueviolet)](docs/doctrine/v2.0/MASTER-ARCHITECT-PROMPT-v7.0.md)
 
 > **Sovereign Business Intelligence SaaS** — fully running on the Cloudflare full-stack ecosystem
 > (Pages + Workers + D1 + KV + R2 + Hono) with Duitku Pop payment gateway live-integrated on
 > production merchant **D20919**. A SparkMind sovereign product, operated by
 > **PT. Waskita Cakrawarti Digital**.
+
+## 🏛️ Dual Role: BI SaaS + Merchant-of-Record (v7.0 lock)
+
+Per the **OBP HYBRID** doctrine (MASTER-ARCHITECT-PROMPT v7.0, 2026-05-21), this entity serves **two locked roles**:
+
+1. **Layer 1 product**: A standalone Business Intelligence SaaS for solopreneurs & micro-agencies
+2. **Layer 2 Merchant-of-Record**: The single MoR for all 4 SparkMind sub-brands (BarberKas, KuratorKas, PaceLokal, Nurani.OS)
+
+See [`docs/mor/MOR-ROUTING-MANIFEST.md`](docs/mor/MOR-ROUTING-MANIFEST.md) for the routing table and [`docs/doctrine/v2.0/`](docs/doctrine/v2.0/) for the full 10-doc canonical bundle.
+
+| Companion Repo | Role |
+|----------------|------|
+| [Sparkmind-Sovereign](https://github.com/ganihypha/Sparkmind-Sovereign) | Mother monorepo · SSOT |
+| [kuratorkas](https://github.com/ganihypha/kuratorkas) | Sub-brand standalone mirror |
+| **oasis-bi-pro** (this repo) | Merchant-of-Record + BI SaaS |
 
 ---
 
