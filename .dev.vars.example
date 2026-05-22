@@ -1,0 +1,15 @@
+# Local development secrets — copy to `.dev.vars` and fill in
+# `.dev.vars` is gitignored. NEVER commit real values.
+
+# Duitku merchant credentials (get from Duitku dashboard)
+DUITKU_MERCHANT_CODE=
+DUITKU_API_KEY=
+
+# Optional overrides (defaults applied if unset)
+DUITKU_ENV=sandbox
+DUITKU_BASE_URL=https://sandbox.duitku.com/webapi/api/merchant
+RETURN_URL=http://localhost:3000/payment/success
+CALLBACK_URL=http://localhost:3000/api/duitku/callback
+
+# JWT secret for session signing
+JWT_SECRET=

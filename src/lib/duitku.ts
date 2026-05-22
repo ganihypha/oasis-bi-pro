@@ -16,10 +16,21 @@ export interface DuitkuConfig {
 }
 
 export function getDuitkuConfig(env: any): DuitkuConfig {
+  // SECRETS — must come from Cloudflare secrets / wrangler secret. NEVER hard-code.
+  // Set via: `npx wrangler pages secret put DUITKU_MERCHANT_CODE --project-name oasis-bi-pro`
+  //         `npx wrangler pages secret put DUITKU_API_KEY --project-name oasis-bi-pro`
+  // For local dev, place them in `.dev.vars` (gitignored).
+  const merchantCode = env.DUITKU_MERCHANT_CODE
+  const apiKey = env.DUITKU_API_KEY
+  if (!merchantCode || !apiKey) {
+    throw new Error(
+      'Missing DUITKU_MERCHANT_CODE or DUITKU_API_KEY. ' +
+      'Set them via `wrangler pages secret put …` (production) or `.dev.vars` (local).'
+    )
+  }
   return {
-    merchantCode: env.DUITKU_MERCHANT_CODE || 'D20919',
-    // SECRET — only present at runtime via wrangler secret. Never hard-code in production.
-    apiKey: env.DUITKU_API_KEY || '17d9d5e20fbf4763a44c41a1e95cb7cb',
+    merchantCode,
+    apiKey,
     baseUrl: env.DUITKU_BASE_URL || 'https://api-prod.duitku.com/api/merchant',
     returnUrl: env.RETURN_URL || 'https://oasis-bi-pro.pages.dev/payment/success',
     callbackUrl: env.CALLBACK_URL || 'https://oasis-bi-pro.pages.dev/api/duitku/callback',
